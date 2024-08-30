@@ -1,40 +1,53 @@
-import { Feedbackstyle } from "./Feedback.styled";
-import React, { Component } from "react";
+import { Component } from "react";
+import { Feedbackstyle, DivLayout, ClickButton, DivFeedback, Button,StatisticsDiv, StatisticsElem } from "./Feedback.styled";
 export class Feedback extends Component {
     static defaultProps = {
-        step: 1,
-        startpoint: 110,
+        startpoint: 0,
+        begining:  "Click the button",
     };
-     state = {
-         value: this.props.startpoint,
+  state = {
+         good: this.props.startpoint,
+         neutral: this.props.startpoint,
+    bad: this.props.startpoint,
      }
+  onLeaveFeedback = evt => {
+      const { name, value } = evt.target;
+    this.setState({ [name]: Number(value) + 1} );        
+  };
+  countTotalFeedback = () => {
+    return Number(this.state.good) + Number(this.state.neutral) + Number(this.state.bad) ;
+  } 
 
-    constructor(props) {
-        super(props);
-        // this.state = {
-        //       value: this.props.startpoint,
-        // }
-    this.handleIncrement = this.handleIncrement.bind(this);
-    this.handleDecrement = this.handleDecrement.bind(this);
-    }
-    
-    static propTypes = {};
-    handleIncrement = () => {
-         this.setState({ value: this.state.value + this.props.step})
-     };
-    handleDecrement = evt => {
-        this.setState({ value: this.state.value - this.props.step })
-    };
+  countPositiveFeedbackPercentage = () => {
+    return (!this.state.good)
+      ? 0
+      : Math.round(Number(this.state.good)/(Number(this.state.good) + Number(this.state.neutral) + Number(this.state.bad))*100) ;
+  }
+
+
+
     render() {
-        const { step } = this.props;
-      return (<>
-              <Feedbackstyle>FEEDBACK</Feedbackstyle>
-           <div>
-        <span>{this.state.value}</span>
-        <button type="button" onClick={this.handleIncrement}>Increment by {step}</button>
-        <button type="button"onClick={this.handleDecrement}>Decrement by {step}</button>
-      </div>
-          </>)
-    }
-}
+        const { good, neutral, bad} = this.state;
+        const { begining } = this.props;
+      return (<DivLayout>
+        <Feedbackstyle>Please leave feedback</Feedbackstyle>
+        <ClickButton>{!good && !neutral && !bad && begining}</ClickButton>
+          <DivFeedback>
+          <Button type="button" name="good" value={good} onClick={this.onLeaveFeedback}>GOOD</Button>
+          <Button type="button" name="neutral" value={neutral} onClick={this.onLeaveFeedback}>NEUTRAL</Button>
+          <Button type="button" name="bad" value={bad} onClick={this.onLeaveFeedback}>BAD</Button>
+        </DivFeedback>
+        { (!good && !neutral && ! bad)
+          ? <StatisticsElem>No feedback given</StatisticsElem>
+          : <StatisticsDiv>
+          <Feedbackstyle >Statistics</Feedbackstyle>
+          <StatisticsElem>Good: {this.state.good}</StatisticsElem>
+          <StatisticsElem>Neutral: {this.state.neutral}</StatisticsElem>
+          <StatisticsElem>Bad: {this.state.bad}</StatisticsElem> 
+            <StatisticsElem >Total: {this.countTotalFeedback()}</StatisticsElem> 
+            <StatisticsElem >Positive Feedback: {this.countPositiveFeedbackPercentage()}%</StatisticsElem> 
+          </StatisticsDiv>
+        }
+          </DivLayout>)
+    }}
 
