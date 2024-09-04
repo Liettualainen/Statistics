@@ -5,6 +5,7 @@ display: flex;
 flex-direction: column;
 `
 export const Feedbackstyle = styled.span`
+margin-right: auto;
 font-size: 80px;
 margin-bottom: 10px;
 `

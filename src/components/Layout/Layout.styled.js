@@ -22,8 +22,8 @@ export const ImageHeader = styled.img`
 display: block;
 margin-right: auto;
 margin-left: auto;
-width: ${(props) => (props.footer ? "400px" : "800px")};
-height: ${(props) => (props.footer ? "100px" : props.feedback ? "800px" : "200px" )};
+width: ${(props) => (props.footer ? "400px" : props.feedback ? "450px" : "900px")};
+height: ${(props) => (props.footer ? "100px" : props.feedback ? "450px" : "300px" )};
 `
 export const Footer = styled.div`
 display: flex;

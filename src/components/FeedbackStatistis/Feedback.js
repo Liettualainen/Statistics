@@ -1,7 +1,8 @@
 import { Component } from "react";
-import { Feedbackstyle, DivLayout, ClickButton, DivFeedback, Button, StatisticsDiv,NoGFeedBack, StatisticsElem } from "./Feedback.styled";
-import { ImageHeader } from '../Layout/Layout.styled';
-import  feedback from '../Img/feedback.png'
+import { DivLayout} from "./Feedback.styled";
+import { Statistics } from './Statistics.js';
+import { FeedbackOptions } from './FeedbackOptions.js';
+import {Section} from './Section.js'
 export class Feedback extends Component {
     static defaultProps = {
         startpoint: 0,
@@ -11,49 +12,52 @@ export class Feedback extends Component {
     good: this.props.startpoint,
     neutral: this.props.startpoint,
     bad: this.props.startpoint,
-     }
+  };
+  //   onLeaveFeedback = state => {
+  //   this.setState(prevState => ({ [state]: prevState[state] + 1 }));
+  // };
   onLeaveFeedback = evt => {
       const { name, value } = evt.target;
-    this.setState({ [name]: Number(value) + 1} );        
+    this.setState({[name]: Number(value) + 1});        
   };
   countTotalFeedback = () => {
-    return Number(this.state.good) + Number(this.state.neutral) + Number(this.state.bad) ;
-  } 
+    const { good, neutral, bad } = this.state;
+    return (Number(good) + Number(neutral) + Number(bad));
+  }; 
   countPositiveFeedbackPercentage = () => {
-    return (!this.state.good)
-      ? 0
-      : Math.round(Number(this.state.good)/(Number(this.state.good) + Number(this.state.neutral) + Number(this.state.bad))*100) ;
-  }
+    const { good, neutral, bad } = this.state;
+    return ((!good) ? 0 : Math.round(Number(good) / (Number(good) + Number(neutral) + Number(bad)) * 100))
+  };
   clearCount = () => {
-    return this.setState({good: 0, neutral:0, bad:0 })  ;
-  } 
-    render() {
-        const { good, neutral, bad} = this.state;
-        const { begining } = this.props;
-      return (<DivLayout>
-        <Feedbackstyle>Please leave feedback</Feedbackstyle>
-        <ClickButton>{!good && !neutral && !bad && begining}</ClickButton>
-          <DivFeedback>
-          <Button green type="button" name="good" value={good} onClick={this.onLeaveFeedback}>GOOD</Button>
-          <Button yellow type="button" name="neutral"  value={neutral} onClick={this.onLeaveFeedback}>NEUTRAL</Button>
-          <Button red type="button" name="bad"  value={bad} onClick={this.onLeaveFeedback}>BAD</Button>
-        </DivFeedback>
-        { (!good && !neutral && ! bad)
-          ? 
-          <><ImageHeader feedback src={feedback} alt="User avatar" width="70" height="70">
-            </ImageHeader>
-            <NoGFeedBack>No feedback given</NoGFeedBack>
-          </>
-          : <StatisticsDiv>
-          <Feedbackstyle >Statistics</Feedbackstyle>
-          <StatisticsElem>Good: {this.state.good}</StatisticsElem>
-          <StatisticsElem>Neutral: {this.state.neutral}</StatisticsElem>
-          <StatisticsElem>Bad: {this.state.bad}</StatisticsElem> 
-            <StatisticsElem >Total: {this.countTotalFeedback()}</StatisticsElem> 
-            <StatisticsElem >Positive Feedback: {this.countPositiveFeedbackPercentage()}%</StatisticsElem> 
-            <Button red type="button" name="clear" onClick={this.clearCount}>Clear count</Button>
-          </StatisticsDiv>
-        }
-          </DivLayout>)
-    }}
+    return this.setState({ good: 0, neutral: 0, bad: 0 });
+  }; 
 
+    render() {
+      const { good, neutral, bad } = this.state;
+      // const options = Object.keys(this.state);
+      const { begining } = this.props;
+      return (
+        <DivLayout>
+          <Section title="Please leave feedback">
+            <FeedbackOptions
+              green
+          // options={options}
+          onbegining={begining}
+          onGood={good}
+          onNeutral={neutral}
+          onBad={bad}
+              onLeaveFeedback={this.onLeaveFeedback}
+            />
+          </Section>
+          <Section  title="Statistics:">
+          <Statistics
+            onGood={good}
+            onNeutral={neutral}
+            onBad={bad}
+            onCountTotalFeedback={this.countTotalFeedback()}
+            oncountPositiveFeedbackPercentage={this.countPositiveFeedbackPercentage()}
+            onclearCount={this.clearCount} />
+            </Section>
+    </DivLayout>)
+  }
+}
