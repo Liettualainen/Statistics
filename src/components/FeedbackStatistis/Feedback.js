@@ -40,7 +40,6 @@ export class Feedback extends Component {
         <DivLayout>
           <Section title="Please leave feedback">
             <FeedbackOptions
-              green
           // options={options}
           onbegining={begining}
           onGood={good}
