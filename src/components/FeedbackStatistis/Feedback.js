@@ -34,8 +34,9 @@ export class Feedback extends Component {
 
     render() {
       const { good, neutral, bad } = this.state;
-      // const options = Object.keys(this.state);
-      const { begining } = this.props;
+      const options = Object.keys(this.state);
+      console.log(options);
+;      const { begining } = this.props;
       return (
         <DivLayout>
           <Section title="Please leave feedback">
