@@ -37,7 +37,6 @@ export class Feedback extends Component {
            <ClickButton>{!this.state.good && !this.state.neutral && !this.state.bad && begining}</ClickButton>
           <Section title="Please leave feedback">
             <FeedbackOptions
-          onSize = {options}
           options={options}
           onLeaveFeedback={this.onLeaveFeedback}
             />
