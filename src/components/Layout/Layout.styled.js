@@ -23,7 +23,7 @@ display: block;
 margin-right: auto;
 margin-left: auto;
 width: ${(props) => (props.$footer ? "400px" : props.$feedback ? "450px" : "900px")};
-height: ${(props) => (props.$footer ? "150px" : props.$feedback ? "450px" : "300px" )};
+height: ${(props) => (props.$footer ? "150px" : props.$feedback ? "450px" : "400px" )};
 `
 export const ImageFooter = styled.div`
 display: flex;
