@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { DivLayout} from "./Feedback.styled";
+import { DivLayout, ClickButton} from "./Feedback.styled";
 import { Statistics } from './Statistics.js';
 import { FeedbackOptions } from './FeedbackOptions.js';
 import {Section} from './Section.js'
@@ -13,12 +13,8 @@ export class Feedback extends Component {
     neutral: this.props.startpoint,
     bad: this.props.startpoint,
   };
-  //   onLeaveFeedback = state => {
-  //   this.setState(prevState => ({ [state]: prevState[state] + 1 }));
-  // };
-  onLeaveFeedback = evt => {
-      const { name, value } = evt.target;
-    this.setState({[name]: Number(value) + 1});        
+    onLeaveFeedback = state => {
+      this.setState(prevState => ({ [state]: prevState[state] + 1 }));
   };
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
@@ -32,21 +28,18 @@ export class Feedback extends Component {
     return this.setState({ good: 0, neutral: 0, bad: 0 });
   }; 
 
-    render() {
-      const { good, neutral, bad } = this.state;
-      const options = Object.keys(this.state);
-      console.log(options);
-;      const { begining } = this.props;
+  render() {
+    const { good, neutral, bad } = this.state;
+    const options = Object.keys(this.state);
+    const { begining } = this.props;
       return (
         <DivLayout>
+           <ClickButton>{!this.state.good && !this.state.neutral && !this.state.bad && begining}</ClickButton>
           <Section title="Please leave feedback">
             <FeedbackOptions
-          // options={options}
-          onbegining={begining}
-          onGood={good}
-          onNeutral={neutral}
-          onBad={bad}
-              onLeaveFeedback={this.onLeaveFeedback}
+          onSize = {options}
+          options={options}
+          onLeaveFeedback={this.onLeaveFeedback}
             />
           </Section>
           <Section  title="Statistics:">
@@ -61,3 +54,9 @@ export class Feedback extends Component {
     </DivLayout>)
   }
 }
+
+
+// onLeaveFeedback = evt => {
+  //     const { name, value } = evt.target;
+  //   this.setState({[name]: Number(value) + 1});        
+  // };

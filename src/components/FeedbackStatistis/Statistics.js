@@ -15,7 +15,7 @@ export const Statistics = ({ onGood, onNeutral, onBad, onCountTotalFeedback,
                 <StatisticsElem>Bad: {onBad}</StatisticsElem>
                 <StatisticsElem >Total: {onCountTotalFeedback}</StatisticsElem>
                 <StatisticsElem >Positive feedback: {oncountPositiveFeedbackPercentage}%</StatisticsElem>
-                <Button red type="button" name="clear" onClick={onclearCount}>Clear count</Button>
+                <Button type="button" name="clear" onClick={onclearCount}>Clear count</Button>
             </StatisticsDiv>
         }
     </>
